@@ -16,7 +16,7 @@ import com.leo.domain.User;
  * @author Leonhardt
  *
  */
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, String> {
 	
 	//加条件（JPA通过方法名可以添加各种条件）
     User findByUserName(String userName);

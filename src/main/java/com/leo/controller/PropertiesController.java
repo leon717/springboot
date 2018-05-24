@@ -1,20 +1,19 @@
 package com.leo.controller;
 
-import javax.annotation.Resource;
-
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.leo.properties.LeoProperties;
 
 @RestController
 public class PropertiesController {
 
-	@Resource
-	private LeoProperties leoProperties;
+    @Value("${com.leo.title}")
+    private String title;
+    @Value("${com.leo.description}")
+    private String description;
 	
 	@RequestMapping("/getProperties")
-	public LeoProperties index(){
-		return leoProperties;
+	public String index(){
+		return title+description;
 	}
 }
