@@ -34,7 +34,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Transactional
     @Modifying
     @Query("update User u set u.userName = ? where u.id = ?")
-    int modifyByIdAndUserId(String  userName, int id);
+    int modifyByIdAndUserId(String userName, String id);
     
     //sql查询
     @Query(value = "select * from user b where b.nick_name=?", nativeQuery = true)

@@ -8,12 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class User implements Serializable {
+public class User extends BaseEntity<String> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue
-	private int id;
 	private String userName;
 	private String passWord;
 	private String email;
@@ -31,14 +28,6 @@ public class User implements Serializable {
 		this.email = email;
 		this.nickName = nickName;
 		this.regTime = regTime;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
 	}
 
 	public String getUserName() {

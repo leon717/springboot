@@ -19,14 +19,13 @@ import com.leo.domain.User;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserRepositoryTests {
+public class TestUserRepository {
 
 	@Resource
 	private UserRepository userRepository;
 
 	@Test
-	public void test() throws Exception {
-		
+	public void testInsert() {
 		//insert
 		userRepository.save(new User("张三", "123456", "sanzhang@leo.com","zs",new Date()));
 		userRepository.save(new User("李四", "123456", "sili@leo.com","ls",new Date()));
@@ -34,13 +33,32 @@ public class UserRepositoryTests {
 		userRepository.save(new User("王六", "123456", "wuwang6@leo.com","ww6",new Date()));
 		userRepository.save(new User("王七", "123456", "wuwang7@leo.com","ww7",new Date()));
 		userRepository.save(new User("王八", "123456", "wuwang8@leo.com","ww8",new Date()));
-		
+	}
+
+	@Test
+	public void testUpdate() {
 		//update
 		User user = userRepository.findByUserName("王五");
 		user.setNickName("new");
 		userRepository.save(user);
 		
-		userRepository.modifyByIdAndUserId("王九", 2);
+		//hql update
+		User user2 = userRepository.findByUserName("王五");
+		userRepository.modifyByIdAndUserId("王九", user2.getId());
+	}
+	
+	@Test
+	public void testDelete() {
+		userRepository.delete(userRepository.findByUserName("张三"));
+		userRepository.delete(userRepository.findByUserNameOrEmail(null, "sili@leo.com"));
+	}
+	
+	@Test
+	public void testQuery() throws Exception {
+		
+		testInsert();
+		
+		testUpdate();
 		
 		//findAll
 		List<User> userList = userRepository.findAll();
@@ -62,8 +80,7 @@ public class UserRepositoryTests {
 		List<User> list = userRepository.FindByNickNameBySql("new");
 		System.out.println(list);
 
-		userRepository.delete(userRepository.findByUserName("张三"));
-		userRepository.delete(userRepository.findByUserNameOrEmail(null, "sili@leo.com"));
+		testDelete();
 	}
 
 }
