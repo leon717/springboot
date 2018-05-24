@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Transient;
 
 @Entity
 public class User extends BaseEntity<String> implements Serializable {
@@ -14,6 +17,16 @@ public class User extends BaseEntity<String> implements Serializable {
 	private String email;
 	private String nickName;
 	private Date regTime;
+	
+	@Enumerated(EnumType.STRING)	//string而不是索引
+	private Gender gender;
+	@Transient	//不映射
+	private String str;
+	
+    public enum Gender {
+        MALE,
+        FEMALE;
+    }
 
 	public User() {
 		super();
@@ -66,6 +79,14 @@ public class User extends BaseEntity<String> implements Serializable {
 
 	public void setRegTime(Date regTime) {
 		this.regTime = regTime;
+	}
+
+	public Gender getGender() {
+		return gender;
+	}
+
+	public void setGender(Gender gender) {
+		this.gender = gender;
 	}
 
 }
