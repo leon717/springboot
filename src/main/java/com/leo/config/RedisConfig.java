@@ -47,6 +47,8 @@ public class RedisConfig extends CachingConfigurerSupport{
         return rcm;
     }
     
+    //StringRedisTemplate采用StringRedisSerializer序列化，已实现
+    //redis序列化方式(本例采用json序列化，默认为JDK序列化JdkSerializationRedisSerializer)
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	@Bean
     public RedisTemplate<String, String> redisTemplate(RedisConnectionFactory factory) {

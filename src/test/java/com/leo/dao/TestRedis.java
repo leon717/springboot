@@ -15,35 +15,38 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import com.leo.domain.User;
 
+@SuppressWarnings({"rawtypes","unchecked"})
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TestRedis {
 
     @Autowired
-    private StringRedisTemplate stringRedisTemplate;
+    private StringRedisTemplate stringRedisTemplate;	//StringRedisSerializer序列化
     
-    @Autowired
+
+	@Autowired
     private RedisTemplate redisTemplate;
 
     @Test
-    public void test() throws Exception {
-        stringRedisTemplate.opsForValue().set("aaa", "111");
-        Assert.assertEquals("111", stringRedisTemplate.opsForValue().get("aaa"));
+    public void testString() throws Exception {
+    	//存
+        stringRedisTemplate.opsForValue().set("key", "value");
+        //取
+        Assert.assertEquals("value", stringRedisTemplate.opsForValue().get("key"));
     }
     
     @Test
     public void testObj() throws Exception {
         User user=new User("张三", "123456", "sanzhang@leo.com","zs",new Date());
+        
         ValueOperations<String, User> operations=redisTemplate.opsForValue();
-        operations.set("com.neox", user);
-        operations.set("com.neo.f", user,2,TimeUnit.SECONDS);
-        Thread.sleep(1000);
-        redisTemplate.delete("com.neo.f");
-        boolean exists=redisTemplate.hasKey("com.neo.f");
-        if(exists){
-            System.out.println("exists is true");
-        }else{
-            System.out.println("exists is false");
-        }
+        operations.set("com.leo", user);	//无过期时间
+        operations.set("com.leo.limit", user, 1, TimeUnit.SECONDS);	//过期时间
+        Thread.sleep(2000);
+        
+        Assert.assertTrue(redisTemplate.hasKey("com.leo"));
+        Assert.assertFalse(redisTemplate.hasKey("com.leo.limit"));
+        
+//        redisTemplate.delete("com.leo");	//删除
     }
 }

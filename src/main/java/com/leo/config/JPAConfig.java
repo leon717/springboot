@@ -12,7 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 public class JPAConfig {
 
     @Bean
-    public AuditorAware auditorAware() {
+    public AuditorAware<?> auditorAware() {
 
         //TODO 从Session获取用户信息
 
