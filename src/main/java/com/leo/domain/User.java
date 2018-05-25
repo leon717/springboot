@@ -6,9 +6,12 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
+@Table(name = "t_user")
 public class User extends BaseEntity<String> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -17,6 +20,8 @@ public class User extends BaseEntity<String> implements Serializable {
 	private String email;
 	private String nickName;
 	private Date regTime;
+	@OneToOne(mappedBy="user")
+	private Address address;
 	
 	@Enumerated(EnumType.STRING)	//string而不是索引
 	private Gender gender;
@@ -87,6 +92,22 @@ public class User extends BaseEntity<String> implements Serializable {
 
 	public void setGender(Gender gender) {
 		this.gender = gender;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	public String getStr() {
+		return str;
+	}
+
+	public void setStr(String str) {
+		this.str = str;
 	}
 
 }
