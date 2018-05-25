@@ -1,4 +1,4 @@
-package com.leo.dao;
+package com.leo.repo;
 
 import java.util.ArrayList;
 import java.util.Date;

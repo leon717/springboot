@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<User, String>,JpaSpecifica
     User findByUserNameOrEmail(String username, String email);
     //多条件必须都有才能查
     User findByUserNameAndNickNameAndEmail(String userName, String nickName, String email);
-    //OneToOne多表关联查询
+    //OneToOne多表关联查询,"_"间隔子表字段
     User findByAddress_Code(String code);
 
     //分页

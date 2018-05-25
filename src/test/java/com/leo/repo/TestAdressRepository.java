@@ -1,4 +1,4 @@
-package com.leo.dao;
+package com.leo.repo;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
