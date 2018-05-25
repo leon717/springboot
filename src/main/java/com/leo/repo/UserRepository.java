@@ -30,6 +30,9 @@ public interface UserRepository extends JpaRepository<User, String>,JpaSpecifica
     @Query("select u from User u where u.email = ?")
     User findByEmailAddress(String email);
     
+    @Query("select u from User u where u.address.code = ?")
+    User findByByAddressCode(String code);
+    
     //hql增删改（DML）需要@Modifying,事务
     @Transactional
     @Modifying

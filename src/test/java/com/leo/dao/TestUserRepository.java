@@ -128,6 +128,8 @@ public class TestUserRepository {
 	public void testOnetoOne(){
 		User user = userRepository.findByAddress_Code("1");
 		System.out.println(user);
+		User user2 = userRepository.findByByAddressCode("1");
+		System.out.println(user2);
 	}
 
 	@Test
