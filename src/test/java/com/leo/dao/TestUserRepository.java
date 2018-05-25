@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -23,6 +25,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.util.StringUtils;
 
+import com.leo.domain.Address;
 import com.leo.domain.User;
 import com.leo.repo.UserRepository;
 
@@ -130,6 +133,46 @@ public class TestUserRepository {
 		System.out.println(user);
 		User user2 = userRepository.findByByAddressCode("1");
 		System.out.println(user2);
+	}
+	
+	//测试多表动态查询
+	@Test
+	public void testDynamiJoinQuery() {
+		User user = new User();
+		user.setUserName("张");
+		user.setAddress(new Address("1",null));
+		
+		int page = 0;
+		int size = 3;
+		Pageable pageable = new PageRequest(page, size, new Sort(Direction.DESC,"id"));
+		
+		Page<User> list = userRepository.findAll(new Specification<User>() {
+			
+			@Override
+			public Predicate toPredicate(Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				ArrayList<Predicate> predicates = new ArrayList<Predicate>();
+				
+				if(!StringUtils.isEmpty(user.getUserName())){
+					predicates.add(cb.like(root.get("userName"), "%"+user.getUserName()+"%"));
+				}
+				if(!StringUtils.isEmpty(user.getNickName())){
+					predicates.add(cb.like(root.get("nickName"), "%"+user.getNickName()+"%"));
+				}
+				//多表查询
+				if(!StringUtils.isEmpty(user.getAddress())){
+					if(!StringUtils.isEmpty(user.getAddress().getCode())){
+						Join<User,Address> join = root.join("address", JoinType.LEFT);
+						predicates.add(cb.equal(join.get("code"), user.getAddress().getCode()));
+					}
+				}
+				
+				query.where(predicates.toArray(new Predicate[predicates.size()]));
+				
+				return null;
+			}
+		}, pageable);
+		
+		System.out.println(list);
 	}
 
 	@Test
