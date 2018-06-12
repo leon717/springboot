@@ -27,6 +27,7 @@ import org.springframework.util.StringUtils;
 
 import com.leo.domain.Address;
 import com.leo.domain.User;
+import com.leo.domain.User.Gender;
 import com.leo.repo.UserRepository;
 
 @RunWith(SpringRunner.class)
@@ -52,6 +53,7 @@ public class TestUserRepository {
 		//update
 		User user = userRepository.findByUserName("王五");
 		user.setNickName("new");
+		user.setGender(Gender.MALE);
 		userRepository.save(user);
 		
 		//hql update
