@@ -1,5 +1,6 @@
 package com.leo.repo;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -110,6 +111,8 @@ public class TestUserRepository {
 		User user = new User();
 		user.setUserName("王");
 		
+		String genderStr = "MALE";
+		
 		int page = 0;
 		int size = 3;
 		Pageable pageable = new PageRequest(page, size, new Sort(Direction.DESC,"id"));
@@ -125,6 +128,20 @@ public class TestUserRepository {
 				}
 				if(!StringUtils.isEmpty(user.getNickName())){
 					predicates.add(cb.like(root.get("nickName"), "%"+user.getNickName()+"%"));
+				}
+				
+				//eunm字符串
+				Class<?> type = root.get("gender").getJavaType();
+				if(type.isEnum()){
+					Object enumObj = null;
+					String name = type.getSimpleName();
+					try {
+						Method method = type.getMethod("valueOf", String.class);
+						enumObj = method.invoke(null, genderStr);
+					} catch (Exception e) {
+						throw new RuntimeException(name+"参数错误");
+					}
+					predicates.add(cb.equal(root.get("gender"), enumObj));
 				}
 				
 				//子查询
