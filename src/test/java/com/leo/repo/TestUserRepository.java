@@ -8,8 +8,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,7 +30,7 @@ import org.springframework.util.StringUtils;
 import com.leo.domain.Address;
 import com.leo.domain.User;
 import com.leo.domain.User.Gender;
-import com.leo.repo.UserRepository;
+import com.leo.domain.UserInfo;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -65,6 +67,11 @@ public class TestUserRepository {
 	public void testDelete() {
 		userRepository.delete(userRepository.findByUserName("张三"));
 		userRepository.delete(userRepository.findByUserNameOrEmail(null, "sili@leo.com"));
+	}
+	
+	@Test
+	public void testJPADelete() {
+		userRepository.deleteByUserName("王八");
 	}
 	
 	@Test
@@ -119,6 +126,16 @@ public class TestUserRepository {
 				if(!StringUtils.isEmpty(user.getNickName())){
 					predicates.add(cb.like(root.get("nickName"), "%"+user.getNickName()+"%"));
 				}
+				
+				//子查询
+				Subquery<User> subquery = query.subquery(User.class);
+				Root<UserInfo> addressRoot = subquery.from(UserInfo.class);
+				Path<Object> path = root.get("id");					//匹配子查询字段
+				subquery.select(addressRoot.<User>get("userId"));	//匹配父查询字段
+				
+				//子查询条件
+				subquery.where(cb.like(addressRoot.get("info"), "%123%"));
+				predicates.add(cb.in(path).value(subquery));
 				
 				query.where(predicates.toArray(new Predicate[predicates.size()]));
 				
@@ -175,6 +192,12 @@ public class TestUserRepository {
 		}, pageable);
 		
 		System.out.println(list);
+	}
+	
+	@Test
+	public void testQueryEnum(){
+		List<String> userName = userRepository.findUserNameByGender(Gender.MALE);
+		System.out.println(userName);
 	}
 
 	@Test

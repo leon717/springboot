@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.leo.domain.User;
+import com.leo.domain.User.Gender;
 
 public interface UserRepository extends JpaRepository<User, String>,JpaSpecificationExecutor<User> {
 	
@@ -21,6 +22,9 @@ public interface UserRepository extends JpaRepository<User, String>,JpaSpecifica
     User findByUserNameAndNickNameAndEmail(String userName, String nickName, String email);
     //OneToOne多表关联查询,"_"间隔子表字段
     User findByAddress_Code(String code);
+    //删除
+    @Transactional
+    long deleteByUserName(String userName);
 
     //分页
     Page<User> findByOrderByIdDesc(Pageable pageable);
@@ -32,6 +36,10 @@ public interface UserRepository extends JpaRepository<User, String>,JpaSpecifica
     
     @Query("select u from User u where u.address.code = ?")
     User findByByAddressCode(String code);
+    
+    //查询枚举
+    @Query("select u.userName from User u where u.gender = ?")
+    List<String> findUserNameByGender(Gender gender);
     
     //hql增删改（DML）需要@Modifying,事务
     @Transactional
