@@ -14,7 +14,7 @@ public class JPAConfig {
     @Bean
     public AuditorAware<?> auditorAware() {
 
-        //TODO 从Session获取用户信息
+        //从Session获取用户信息
 
         return () -> Optional.of("Unknown").get();
     }
