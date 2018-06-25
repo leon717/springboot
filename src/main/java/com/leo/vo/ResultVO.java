@@ -5,10 +5,16 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
+@ApiModel("结果集")
 public class ResultVO<T> {
 
+	@ApiModelProperty("代码")
     private String code;
 
+	@ApiModelProperty("信息")
     private String msg;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)	//为null时不发送
