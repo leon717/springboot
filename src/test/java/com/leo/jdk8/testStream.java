@@ -92,7 +92,7 @@ public class testStream {
 			anyMatch、 allMatch、 noneMatch、 findFirst、 findAny、 limit
 	 */
 	
-	//map&flatMap
+	//map(类型转换)&flatMap
 	@Test
 	public void mapOperation(){
 		//转大写

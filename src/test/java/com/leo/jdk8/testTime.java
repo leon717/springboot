@@ -17,6 +17,9 @@ import org.junit.Test;
 	设计很差	在java.util和java.sql的包中都有日期类
 	时区处理麻烦	日期类并不提供国际化，没有时区支持，因此Java引入了java.util.Calendar和java.util.TimeZone类，但他们同样存在上述所有的问题。
  */
+/**
+ * org.joda.time更好用，有toDate()方法
+ */
 public class testTime{
 	
 	/**
