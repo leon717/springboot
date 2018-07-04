@@ -1,21 +1,19 @@
 package com.leo.mq;
 
-import java.util.Date;
-
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.leo.domain.User;
+
 @Component
-public class Sender {
+public class UserSender {
 	
 	@Autowired
     private AmqpTemplate rabbitTemplate;
 
-    public void send(int order) {
-        String context = "hello " + new Date() + " order : " + order;
-        System.out.println("Sender : " + context);
-		rabbitTemplate.convertAndSend("hello", context);
+    public void send(User user) {
+        System.out.println("Sender : " + user);
+		rabbitTemplate.convertAndSend("user", user);
 	}
-    
 }

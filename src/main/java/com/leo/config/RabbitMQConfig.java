@@ -8,8 +8,13 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-	@Bean	//定义队列
+	@Bean	//瀹氫箟闃熷垪
 	public Queue Queue() {
 	    return new Queue("hello");
+	}
+	
+	@Bean	//瀵瑰璞＄殑鏀寔
+	public Queue UserQueue() {
+	    return new Queue("user");
 	}
 }

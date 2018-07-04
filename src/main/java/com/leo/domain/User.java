@@ -135,4 +135,9 @@ public class User extends BaseEntity<String> implements Serializable {
 		this.str = str;
 	}
 
+	@Override
+	public String toString() {
+		return "User [userName=" + userName + ", gender=" + gender + "]";
+	}
+
 }
