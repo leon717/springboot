@@ -12,10 +12,3 @@ myProps: #自定义的属性和值
   mapProps:  
     key1: value1  
     key2: value2
-
-requestRules:
-  rules:
-  - interval: 1
-    count: 5
-  - interval: 2
-    count: 6
