@@ -49,4 +49,13 @@ public class TestRedis {
         
 //        redisTemplate.delete("com.leo");	//删除
     }
+    
+   //String.format null不会报错
+   @SuppressWarnings("all")
+   @Test
+   public void testStringFormat(){
+	   String format = "test:%s";
+	   redisTemplate.opsForValue().set(String.format(format, null), 1);
+	   redisTemplate.delete(String.format(format, null));
+   }
 }
