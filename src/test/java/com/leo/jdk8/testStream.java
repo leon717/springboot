@@ -7,8 +7,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -240,5 +242,27 @@ public class testStream {
 	public void parallelStream(){
 		List<Integer> l = Stream.iterate(0,t->t+3).limit(100).collect(Collectors.toList());
 		l.parallelStream().forEach(x -> System.out.println(Thread.currentThread()+":"+x));
+	}
+	
+	@Test
+	public void collectAfterMap(){
+		List<User> users = Stream.generate(() -> new User()).limit(10).collect(Collectors.toList());	//create
+		users.forEach(user->{
+			user.setUserName(UUID.randomUUID().toString());
+		});
+		IntStream.range(0, users.size()).forEach(idx->{
+			if(idx%2==1){
+				users.get(idx).setGender(Gender.MALE);
+			}else{
+				users.get(idx).setGender(Gender.FEMALE);
+			}
+		});
+		System.out.println(users);
+		
+		Map<Gender, List<User>> collect = users.stream().collect(Collectors.groupingBy(User::getGender));
+		System.out.println(collect);
+		
+		Set<Gender> genders = users.stream().map(u->u.getGender()).collect(Collectors.toSet());
+		System.out.println(genders);
 	}
 }

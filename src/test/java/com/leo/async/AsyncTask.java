@@ -1,6 +1,9 @@
 package com.leo.async;
 
+import java.util.concurrent.Future;
+
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 
 /**
@@ -28,11 +31,12 @@ public class AsyncTask {
 	}
 	
 	//无锁
-	@Async	
-	public void task3() throws InterruptedException{
+	@Async("asyncTaskExecutor")
+	public Future<String> task3() throws InterruptedException{
 		System.out.println("线程-"+Thread.currentThread().getName()+":task3开始时间:"+System.currentTimeMillis());
 		Thread.sleep(1000);
 		System.out.println("线程-"+Thread.currentThread().getName()+":task3结束时间:"+System.currentTimeMillis());
+		return new AsyncResult<String>("over");
 	}
 	
 	//和task1有共用1个锁

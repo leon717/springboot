@@ -1,5 +1,8 @@
 package com.leo.async;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +42,18 @@ public class AsyncTest {
 		long currentTimeMillis1 = System.currentTimeMillis();
 		System.out.println("task任务总耗时:"+(currentTimeMillis1-currentTimeMillis)+"ms");
 		Thread.sleep(6000);
+	}
+	
+	@Test
+	public void doTask3() throws InterruptedException, ExecutionException{
+		long currentTimeMillis = System.currentTimeMillis();
+		Future<String> future = asyncTask.task3();
+
+		String str = future.get();	//此方法为一个阻塞方法
+		System.out.println(str);
+		
+		long currentTimeMillis1 = System.currentTimeMillis();
+		System.out.println("task任务总耗时:"+(currentTimeMillis1-currentTimeMillis)+"ms");
 	}
 
 }

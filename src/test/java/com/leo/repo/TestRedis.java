@@ -14,6 +14,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.leo.domain.User;
+import com.leo.domain.User.Gender;
 
 @SuppressWarnings({"rawtypes","unchecked"})
 @RunWith(SpringRunner.class)
@@ -57,5 +58,14 @@ public class TestRedis {
 	   String format = "test:%s";
 	   redisTemplate.opsForValue().set(String.format(format, null), 1);
 	   redisTemplate.delete(String.format(format, null));
+   }
+   
+   //JsonIgnore对redis序列化也有效
+   @Test
+   public void testJsonSerialize(){
+	   User user = new User();
+	   user.setGender(Gender.MALE);
+	   
+	   redisTemplate.opsForValue().set(User.TEST, user);
    }
 }
