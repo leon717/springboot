@@ -265,4 +265,12 @@ public class testStream {
 		Set<Gender> genders = users.stream().map(u->u.getGender()).collect(Collectors.toSet());
 		System.out.println(genders);
 	}
+	
+	@Test
+	public void sorted(){
+		List<Integer> nums = Arrays.asList(1,3,5,7,9,2,4,6,8,10);
+		Map<Boolean, List<Integer>> collect = nums.stream().sorted().collect(Collectors.groupingBy(n->n>5));
+		collect.get(Boolean.TRUE).stream().forEach(System.out::print);
+		collect.get(Boolean.FALSE).stream().forEach(System.out::print);
+	}
 }

@@ -1,6 +1,8 @@
 package com.leo.repo;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Assert;
@@ -66,6 +68,13 @@ public class TestRedis {
 	   User user = new User();
 	   user.setGender(Gender.MALE);
 	   
-	   redisTemplate.opsForValue().set(User.TEST, user);
+//	   redisTemplate.opsForValue().set(User.TEST, user);
+   }
+   
+   @SuppressWarnings("all")
+   @Test
+   public void testMulget(){
+	   List get = redisTemplate.opsForValue().multiGet(Arrays.asList("1","2","3","4","5"));
+	   System.out.println(get);	//没有会返回null
    }
 }
