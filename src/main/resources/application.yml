@@ -13,8 +13,14 @@ myProps: #自定义的属性和值
     key1: value1  
     key2: value2
 
-user: 
+user: #线程池
   threadPool:
     corePoolSize: 5
     maxPoolSize: 10
     queueCapacity: 300
+
+spring:
+  http:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
