@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -215,6 +216,14 @@ public class TestUserRepository {
 	public void testQueryEnum(){
 		List<String> userName = userRepository.findUserNameByGender(Gender.MALE);
 		System.out.println(userName);
+	}
+	
+	@Test
+	public void testExample(){
+		User user = new User();
+		user.setGender(Gender.MALE);
+		List<User> list = userRepository.findAll(Example.of(user));
+		System.out.println(list);
 	}
 
 	@Test
