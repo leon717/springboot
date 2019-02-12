@@ -1,0 +1,20 @@
+name: rule1
+description: income between 0-5000
+condition: income.before<=5000
+actions: 
+  - income.tax=0
+#priority: 优先级
+
+---
+name: rule2
+description: income between 5000-8000
+condition: income.before>5000 && income.before<=8000
+actions: 
+  - income.tax=(income.before-5000)*0.03
+
+---
+name: rule3
+description: income above 8000
+condition: income.before>8000
+actions: 
+  - income.tax=(income.before-8000)*0.1+90
