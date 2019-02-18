@@ -1,6 +1,6 @@
 package com.leo.config;
 
-import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,9 +13,9 @@ public class JPAConfig {
 
     @Bean
     public AuditorAware<?> auditorAware() {
-
-        //从Session获取用户信息
-
-        return () -> Optional.of("Unknown").get();
+        return () -> {
+        	int id = new Random().nextInt();
+        	return Integer.toString(id);
+        };
     }
 }

@@ -11,6 +11,8 @@ import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.Set;
 
+import lombok.SneakyThrows;
+
 public class Server {
 
 	public static void main(String[] args) throws IOException {
@@ -28,55 +30,49 @@ public class Server {
 		new Thread(()->excute(excuteSelector)).start();
 	}
 	
+	@SneakyThrows(IOException.class)
 	private static void accept(Selector acceptSelector, Selector excuteSelector) {
 		while(true) {
-			try {
-				// 不断轮询准备就绪的channel
-				if (acceptSelector.select(1) > 0) {
-					Set<SelectionKey> keys = acceptSelector.selectedKeys();
-					Iterator<SelectionKey> iterator = keys.iterator();
-					while (iterator.hasNext()) {
-						SelectionKey key = iterator.next();
-						if (key.isAcceptable()) {
-							SocketChannel channel = ((ServerSocketChannel) key.channel()).accept();
-							channel.configureBlocking(false);
-							channel.register(excuteSelector, SelectionKey.OP_READ);
-							
-							// 移除
-							iterator.remove();
-						}
+			// 不断轮询准备就绪的channel
+			if (acceptSelector.select(1) > 0) {
+				Set<SelectionKey> keys = acceptSelector.selectedKeys();
+				Iterator<SelectionKey> iterator = keys.iterator();
+				while (iterator.hasNext()) {
+					SelectionKey key = iterator.next();
+					if (key.isAcceptable()) {
+						SocketChannel channel = ((ServerSocketChannel) key.channel()).accept();
+						channel.configureBlocking(false);
+						channel.register(excuteSelector, SelectionKey.OP_READ);
+						
+						// 移除
+						iterator.remove();
 					}
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
 		}
 	}
 	
+	@SneakyThrows(IOException.class)
 	private static void excute(Selector excuteSelector) {
 		while(true) {
-			try {
-				// 不断轮询准备就绪的channel（已完成数据传输，数据从操作系统到了应用系统）
-				// 与AIO区别，AIO不需要轮询检查数据是否准备就绪，而是由操作系统回调处理数据的函数，可通过线程池获取线程去操作
-				if (excuteSelector.select(1) > 0) {
-					Set<SelectionKey> keys = excuteSelector.selectedKeys();
-					Iterator<SelectionKey> iterator = keys.iterator();
-					while (iterator.hasNext()) {
-						SelectionKey key = iterator.next();
-						if (key.isReadable()) {
-							SocketChannel channel = (SocketChannel) key.channel();
-							ByteBuffer buffer = ByteBuffer.allocate(1024);
-							channel.read(buffer);
-							buffer.flip();
-							System.out.println(Charset.defaultCharset().decode(buffer));
-							
-							// 移除
-							iterator.remove();
-						}
+			// 不断轮询准备就绪的channel（已完成数据传输，数据从操作系统到了应用系统）
+			// 与AIO区别，AIO不需要轮询检查数据是否准备就绪，而是由操作系统回调处理数据的函数，可通过线程池获取线程去操作
+			if (excuteSelector.select(1) > 0) {
+				Set<SelectionKey> keys = excuteSelector.selectedKeys();
+				Iterator<SelectionKey> iterator = keys.iterator();
+				while (iterator.hasNext()) {
+					SelectionKey key = iterator.next();
+					if (key.isReadable()) {
+						SocketChannel channel = (SocketChannel) key.channel();
+						ByteBuffer buffer = ByteBuffer.allocate(1024);
+						channel.read(buffer);
+						buffer.flip();
+						System.out.println(Charset.defaultCharset().decode(buffer));
+						
+						// 移除
+						iterator.remove();
 					}
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
 		}
 	}
