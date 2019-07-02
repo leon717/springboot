@@ -18,6 +18,9 @@ public class EmployeeService {
 	@Autowired
 	public EmployeeService(Collection<Strategy> strategys) {
 		for (Strategy strategy : strategys) {
+			if (strategyMap.containsKey(strategy.getType())) {
+				throw new RuntimeException("duplicate strategy for " + strategy.getType());
+			}
 			strategyMap.put(strategy.getType(), strategy);
 		}
 	}
@@ -25,5 +28,5 @@ public class EmployeeService {
 	public int payAmount(Employee employee) {
 		return strategyMap.get(employee.getEmployeeType()).payAmount(employee);
 	}
-	
+
 }
