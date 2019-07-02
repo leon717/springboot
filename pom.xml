@@ -46,6 +46,7 @@
 	<modules>
 		<module>easyrules</module>
 		<module>updown</module>
+		<module>strategy-pattern</module>
 	</modules>
 
 	<build>
