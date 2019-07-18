@@ -4,7 +4,7 @@
   <artifactId>strategy-pattern</artifactId>
   
   <parent>
-    <groupId>com.leo.learn.boot</groupId>
+    <groupId>com.leo.boot</groupId>
     <artifactId>parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
