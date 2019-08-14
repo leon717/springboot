@@ -16,7 +16,7 @@ public class EmployeeService {
 	private Map<EmployeeType, Strategy> strategyMap = new ConcurrentHashMap<>(3);
 
 	@Autowired
-	public EmployeeService(Collection<Strategy> strategys) {
+	private EmployeeService(Collection<Strategy> strategys) {
 		for (Strategy strategy : strategys) {
 			if (strategyMap.containsKey(strategy.getType())) {
 				throw new RuntimeException("duplicate strategy for " + strategy.getType());
