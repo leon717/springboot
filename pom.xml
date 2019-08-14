@@ -48,6 +48,7 @@
 		<module>updown</module>
 		<module>strategy-pattern</module>
 		<module>webservice</module>
+		<module>cache</module>
 	</modules>
 
 	<build>
