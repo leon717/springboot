@@ -49,6 +49,7 @@
 		<module>strategy-pattern</module>
 		<module>webservice</module>
 		<module>cache</module>
+		<module>aop</module>
 	</modules>
 
 	<build>
