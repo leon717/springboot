@@ -50,6 +50,7 @@
 		<module>webservice</module>
 		<module>cache</module>
 		<module>aop</module>
+		<module>web</module>
 	</modules>
 
 	<build>
