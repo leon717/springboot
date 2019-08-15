@@ -3,6 +3,8 @@ package com.leo.boot.web.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.leo.boot.web.vo.ParamVO;
 import com.leo.boot.web.vo.ResultVO;
 
 import io.swagger.annotations.Api;
@@ -31,15 +34,16 @@ public class RestfulController {
 
     @ApiOperation("查询")
     @GetMapping("/info/{param}")
-    public ResultVO<String> get(@ApiParam(value = "path参数") @PathVariable String param) {
-        return ResultVO.<String>success().addData(param);
+    public ResultVO<?> get(@ApiParam(value = "path参数") @PathVariable String param,
+        @ApiParam(value = "url参数") @Valid ParamVO paramVO) {
+        return ResultVO.success().addData(param).addData(paramVO);
     }
 
     @ApiOperation("设置")
     @PostMapping("/info")
-    public ResultVO<String> post(@ApiParam(value = "url参数") @RequestParam String param,
-        @ApiParam(value = "body参数") @RequestBody String body) {
-        return ResultVO.<String>success().addData(param).addData(body);
+    public ResultVO<?> post(@ApiParam(value = "url参数") @RequestParam String param,
+        @ApiParam(value = "body参数") @Valid @RequestBody ParamVO paramVO) {
+        return ResultVO.success().addData(param).addData(paramVO);
     }
 
     @ApiOperation("分页")
@@ -52,5 +56,5 @@ public class RestfulController {
         List<String> content = Arrays.asList("a", "b", "c");
         return ResultVO.<String>success().setPage(new PageImpl<>(content, pageable, 100));
     }
-    
+
 }
