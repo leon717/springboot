@@ -52,6 +52,7 @@
 		<module>aop</module>
 		<module>web</module>
 		<module>mq</module>
+		<module>jpa</module>
 	</modules>
 
 	<build>
