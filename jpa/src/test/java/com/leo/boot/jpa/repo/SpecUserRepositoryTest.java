@@ -3,6 +3,7 @@ package com.leo.boot.jpa.repo;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.After;
 import org.junit.Before;
@@ -10,19 +11,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.leo.boot.jpa.domain.User;
 import com.leo.boot.jpa.enumeration.Gender;
+import com.leo.boot.jpa.spec.SpecBuilder;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class PageableUserRepositoryTest {
+public class SpecUserRepositoryTest {
 
     @Autowired
     private UserRepository userRepository;
@@ -43,11 +40,24 @@ public class PageableUserRepositoryTest {
     }
 
     @Test
-    public void testPage() {
-        Pageable pageable = new PageRequest(0, 20, Direction.DESC, "id", "name");
-        Page<User> users = userRepository.findAll(Example.of(new User().setGender(Gender.MALE)), pageable);
-        assertEquals(3, users.getNumberOfElements());
-        assertEquals(3, users.getTotalElements());
+    public void testSpec1() {
+        SpecBuilder<User> specBuilder = new SpecBuilder<>("gender=MALE");
+        List<User> users = userRepository.findAll(specBuilder.build());
+        assertEquals(3, users.size());
+    }
+    
+    @Test
+    public void testSpec2() {
+        SpecBuilder<User> specBuilder = new SpecBuilder<>("gender$MALE&FEMALE");
+        List<User> users = userRepository.findAll(specBuilder.build());
+        assertEquals(5, users.size());
+    }
+    
+    @Test
+    public void testSpec3() {
+        SpecBuilder<User> specBuilder = new SpecBuilder<>("creationDate>20190823");
+        List<User> users = userRepository.findAll(specBuilder.build());
+        assertEquals(5, users.size());
     }
     
 }

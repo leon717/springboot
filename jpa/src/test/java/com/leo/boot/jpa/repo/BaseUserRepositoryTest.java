@@ -33,45 +33,45 @@ public class BaseUserRepositoryTest {
 
     @Test
     public void testFindByName() {
-        User user = userRepository.findByName("张三");
+        User user = userRepository.findByName("张三").get(0);
         assertEquals("张三", user.getName());
     }
 
     @Test
     public void testFindByNameOrNick() {
-        User user = userRepository.findByNameOrNick("张三", "");
+        User user = userRepository.findByNameOrNick("张三", "").get(0);
         assertEquals("张三", user.getName());
     }
 
     @Test
     public void testFindByNameAndNick() {
-        User user = userRepository.findByNameOrNick("张三", "小张");
+        User user = userRepository.findByNameOrNick("张三", "小张").get(0);
         assertEquals("张三", user.getName());
     }
 
     @Test
     public void testFindByNameByHQL() {
-        User user = userRepository.findByNameByHQL("张三");
+        User user = userRepository.findByNameByHQL("张三").get(0);
         assertEquals("张三", user.getName());
     }
 
     @Test
     public void testModifyNickByNameByHQL() {
         userRepository.modifyNickByNameByHQL("三", "张三");
-        User user = userRepository.findByNameOrNick("", "三");
+        User user = userRepository.findByNameOrNick("", "三").get(0);
         assertEquals("张三", user.getName());
     }
 
     @Test
     public void testFindByNameByNative() {
-        User user = userRepository.findByNameByNative("张三");
+        User user = userRepository.findByNameByNative("张三").get(0);
         assertEquals("张三", user.getName());
     }
 
     @Test
     public void testModifyNickByNameByNative() {
         userRepository.modifyNickByNameByNative("三", "张三");
-        User user = userRepository.findByNameOrNick("", "三");
+        User user = userRepository.findByNameOrNick("", "三").get(0);
         assertEquals("张三", user.getName());
     }
 

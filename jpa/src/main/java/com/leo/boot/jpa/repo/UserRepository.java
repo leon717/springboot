@@ -1,5 +1,7 @@
 package com.leo.boot.jpa.repo;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -10,18 +12,18 @@ import com.leo.boot.jpa.domain.User;
 
 public interface UserRepository extends JpaRepository<User, String>, JpaSpecificationExecutor<User> {
 
-    User findByName(String name);
+    List<User> findByName(String name);
 
-    User findByNameOrNick(String name, String nick);
+    List<User> findByNameOrNick(String name, String nick);
 
-    User findByNameAndNick(String name, String nick);
+    List<User> findByNameAndNick(String name, String nick);
 
     @Transactional
     void deleteByName(String name);
 
     /******************** hql begin ********************/
     @Query("select u from User u where u.name = ?")
-    User findByNameByHQL(String name);
+    List<User> findByNameByHQL(String name);
 
     @Transactional
     @Modifying
@@ -31,7 +33,7 @@ public interface UserRepository extends JpaRepository<User, String>, JpaSpecific
 
     /******************** native sql begin ********************/
     @Query(value = "select * from t_user where name = ?", nativeQuery = true)
-    User findByNameByNative(String name);
+    List<User> findByNameByNative(String name);
 
     @Transactional
     @Modifying
