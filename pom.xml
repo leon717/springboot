@@ -55,6 +55,7 @@
 		<module>jpa</module>
 		<module>scheduler</module>
 		<module>async</module>
+		<module>mail</module>
 	</modules>
 
 	<build>
