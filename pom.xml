@@ -54,6 +54,7 @@
 		<module>mq</module>
 		<module>jpa</module>
 		<module>scheduler</module>
+		<module>async</module>
 	</modules>
 
 	<build>
