@@ -57,6 +57,7 @@
 		<module>async</module>
 		<module>mail</module>
 		<module>properties</module>
+		<module>webflux</module>
 	</modules>
 
 	<build>
