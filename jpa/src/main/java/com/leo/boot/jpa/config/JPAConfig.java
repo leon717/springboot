@@ -1,5 +1,6 @@
 package com.leo.boot.jpa.config;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.context.annotation.Bean;
@@ -13,7 +14,7 @@ public class JPAConfig {
 
     @Bean
     public AuditorAware<String> auditorAware() {
-        return () -> UUID.randomUUID().toString();
+        return () -> Optional.of(UUID.randomUUID().toString());
     }
     
 }

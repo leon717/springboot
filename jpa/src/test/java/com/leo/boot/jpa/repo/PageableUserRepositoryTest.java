@@ -34,7 +34,7 @@ public class PageableUserRepositoryTest {
         User user3 = new User().setName("王五").setNick("小王").setGender(Gender.MALE);
         User user4 = new User().setName("赵六").setNick("小赵").setGender(Gender.FEMALE);
         User user5 = new User().setName("田七").setNick("小田").setGender(Gender.MALE);
-        userRepository.save(Arrays.asList(user1, user2, user3, user4, user5));
+        userRepository.saveAll(Arrays.asList(user1, user2, user3, user4, user5));
     }
 
     @After
@@ -44,7 +44,7 @@ public class PageableUserRepositoryTest {
 
     @Test
     public void testPage() {
-        Pageable pageable = new PageRequest(0, 20, Direction.DESC, "id", "name");
+        Pageable pageable = PageRequest.of(0, 20, Direction.DESC, "id", "name");
         Page<User> users = userRepository.findAll(Example.of(new User().setGender(Gender.MALE)), pageable);
         assertEquals(3, users.getNumberOfElements());
         assertEquals(3, users.getTotalElements());

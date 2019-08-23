@@ -31,7 +31,7 @@ public class SpecUserRepositoryTest {
         User user3 = new User().setName("王五").setNick("小王").setGender(Gender.MALE);
         User user4 = new User().setName("赵六").setNick("小赵").setGender(Gender.FEMALE);
         User user5 = new User().setName("田七").setNick("小田").setGender(Gender.MALE);
-        userRepository.save(Arrays.asList(user1, user2, user3, user4, user5));
+        userRepository.saveAll(Arrays.asList(user1, user2, user3, user4, user5));
     }
 
     @After

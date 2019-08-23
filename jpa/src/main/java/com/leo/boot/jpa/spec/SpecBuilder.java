@@ -6,7 +6,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
 
 public class SpecBuilder<T> {
 
@@ -42,7 +41,7 @@ public class SpecBuilder<T> {
 
         Specification<T> result = null;
         for (SearchCriteria param : params) {
-            result = Specifications.where(result).and(new Spec<T>(param));
+            result = Specification.where(result).and(new Spec<T>(param));
         }
         return result;
     }
@@ -54,7 +53,7 @@ public class SpecBuilder<T> {
 
         Specification<T> result = null;
         for (SearchCriteria param : params) {
-            result = Specifications.where(result).or(new Spec<T>(param));
+            result = Specification.where(result).or(new Spec<T>(param));
         }
         return result;
     }

@@ -12,6 +12,8 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class Spec<T> implements Specification<T> {
 
+    private static final long serialVersionUID = 1L;
+    
     private SearchCriteria criteria;
 
     public Spec(SearchCriteria criteria) {
