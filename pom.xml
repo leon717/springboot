@@ -53,6 +53,7 @@
 		<module>web</module>
 		<module>mq</module>
 		<module>jpa</module>
+		<module>scheduler</module>
 	</modules>
 
 	<build>
