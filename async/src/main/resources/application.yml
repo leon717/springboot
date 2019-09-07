@@ -1,0 +1,4 @@
+threadPool:
+  corePoolSize: 5
+  maxPoolSize: 10
+  queueCapacity: 300
