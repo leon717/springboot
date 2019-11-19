@@ -1,13 +1,9 @@
 package com.leo.boot.cache.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@Accessors(chain = true, fluent = true)
 @Data
 public class Info {
 	private String id;
