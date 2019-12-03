@@ -1,4 +1,6 @@
-package com.leo.boot.aop.service.impl;
+package com.leo.boot.aop.annotation;
+
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,23 +9,24 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.leo.boot.aop.annotation.Auth.RoleType;
-import com.leo.boot.aop.service.BusinessService;
+import com.leo.boot.aop.annotation.service.MockBusinessService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class BusinessServiceImplTest {
+public class AuthTest {
 
 	@Autowired
-	private BusinessService businessService;
+	private MockBusinessService mockBusinessService;
 
 	@Test
 	public void testAdmin() {
-		businessService.doBusiness(RoleType.ADMIN);
+	    boolean result = mockBusinessService.doBusiness(RoleType.ADMIN);
+	    assertTrue(result);
 	}
 
-	@Test(expected = RuntimeException.class)
+	@Test(expected = Exception.class)
 	public void testOther() {
-		businessService.doBusiness(RoleType.OTHER);
+	    mockBusinessService.doBusiness(RoleType.OTHER);
 	}
 
 }

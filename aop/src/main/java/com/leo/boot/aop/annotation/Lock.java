@@ -1,5 +1,6 @@
 package com.leo.boot.aop.annotation;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -9,6 +10,7 @@ import com.leo.boot.aop.lock.RedisLock;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
+@Documented
 public @interface Lock {
 
 	String id(); // use SpEL expression
