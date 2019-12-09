@@ -16,7 +16,7 @@ import com.leo.boot.cache.domain.InfoExtention;
 public class RedisTemplateTest {
 
     @Autowired
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate<Object, Object> redisTemplate;
 
     @Test
     public void testValueOps() {
