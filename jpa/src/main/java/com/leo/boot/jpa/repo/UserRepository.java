@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.leo.boot.jpa.domain.User;
@@ -22,23 +23,23 @@ public interface UserRepository extends JpaRepository<User, String>, JpaSpecific
     void deleteByName(String name);
 
     /******************** hql begin ********************/
-    @Query("select u from User u where u.name = ?")
-    List<User> findByNameByHQL(String name);
+    @Query("select u from User u where u.name = :name")
+    List<User> findByNameByHQL(@Param("name") String name);
 
     @Transactional
     @Modifying
-    @Query("update User u set u.nick = ? where u.name = ?")
-    void modifyNickByNameByHQL(String nick, String name);
+    @Query("update User u set u.nick = :nick where u.name = :name")
+    void modifyNickByNameByHQL(@Param("nick") String nick, @Param("name") String name);
     /******************** hql end ********************/
 
     /******************** native sql begin ********************/
-    @Query(value = "select * from t_user where name = ?", nativeQuery = true)
-    List<User> findByNameByNative(String name);
+    @Query(value = "select * from t_user where name = :name", nativeQuery = true)
+    List<User> findByNameByNative(@Param("name") String name);
 
     @Transactional
     @Modifying
-    @Query(value = "update t_user set nick = ? where name = ?", nativeQuery = true)
-    void modifyNickByNameByNative(String nick, String name);
+    @Query(value = "update t_user set nick = :nick where name = :name", nativeQuery = true)
+    void modifyNickByNameByNative(@Param("nick") String nick, @Param("name") String name);
     /******************** native sql end ********************/
 
 }

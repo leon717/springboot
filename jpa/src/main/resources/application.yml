@@ -6,14 +6,9 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
-        temp.use_jdbc_metadata_defaults: false
         format_sql: true
   datasource:
-    url: jdbc:mysql://localhost:3306/test
+    url: jdbc:mysql://localhost:3306/test?serverTimezone=UTC
     username: root
     password: root
-    driver-class-name: com.mysql.jdbc.Driver
-    max-idle: 10
-    max-wait: 10000
-    min-idle: 5
-    initial-size: 5
+    driver-class-name: com.mysql.jdbc.Driver  #低版本（5.6）mysql用这个driver，用cj版本driver会有问题

@@ -32,6 +32,16 @@ public class BaseUserRepositoryTest {
     }
 
     @Test
+    public void testModify() {
+        User user = userRepository.findByName("张三").get(0);
+        user.setNick("nick");
+        assertEquals(0, user.getVersion().intValue());
+        userRepository.save(user);
+        user = userRepository.findByName("张三").get(0);
+        assertEquals(1, user.getVersion().intValue());
+    }
+
+    @Test
     public void testFindByName() {
         User user = userRepository.findByName("张三").get(0);
         assertEquals("张三", user.getName());

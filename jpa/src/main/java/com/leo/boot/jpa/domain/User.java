@@ -5,6 +5,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 
 import com.leo.boot.jpa.enumeration.Gender;
 
@@ -26,5 +27,8 @@ public class User extends BaseEntity<String> {
 
     @Transient
     private String temp;
+    
+    @Version
+    private Integer version;
 
 }

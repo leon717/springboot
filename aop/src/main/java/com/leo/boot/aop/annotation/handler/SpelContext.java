@@ -34,7 +34,7 @@ public class SpelContext {
     private SpelContext(Method method, String[] argNames, Object[] argValues) {
         this.context = new StandardEvaluationContext(method);
         for (int i = 0; i < argNames.length; i++) {
-            context.setVariable(argNames[i], argValues[i]);
+            this.context.setVariable(argNames[i], argValues[i]);
         }
     }
     
