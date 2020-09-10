@@ -1,7 +1,7 @@
 package com.leo.boot.jpa.repo;
 
-import static org.junit.Assert.assertEquals;
-
+import com.leo.boot.jpa.domain.User;
+import com.leo.boot.jpa.enumeration.Gender;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.leo.boot.jpa.domain.User;
-import com.leo.boot.jpa.enumeration.Gender;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -36,9 +35,16 @@ public class BaseUserRepositoryTest {
         User user = userRepository.findByName("张三").get(0);
         user.setNick("nick");
         assertEquals(0, user.getVersion().intValue());
-        userRepository.save(user);
-        user = userRepository.findByName("张三").get(0);
+        user = userRepository.save(user);
         assertEquals(1, user.getVersion().intValue());
+    }
+
+    @Test
+    public void testConflict() {
+        User user = userRepository.findByName("张三").get(0);
+        assertEquals(0, user.getVersion().intValue());
+        user = userRepository.save(user);
+        assertEquals(0, user.getVersion().intValue());
     }
 
     @Test

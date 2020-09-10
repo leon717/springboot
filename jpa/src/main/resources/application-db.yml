@@ -1,0 +1,48 @@
+spring:
+  profiles: mysql
+  jpa:
+    database: MYSQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        temp.use_jdbc_metadata_defaults: false
+        format_sql: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/test?serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver  #低版本（5.6）mysql用这个driver，用cj版本driver会有问题
+---
+spring:
+  profiles: postgresql
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        temp.use_jdbc_metadata_defaults: false
+        format_sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+---
+spring:
+  profiles: test
+  jpa:
+    database: h2
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        temp.use_jdbc_metadata_defaults: false
+        format_sql: true
+  datasource:
+    url: jdbc:h2:mem:test
+    driver-class-name: org.h2.Driver
