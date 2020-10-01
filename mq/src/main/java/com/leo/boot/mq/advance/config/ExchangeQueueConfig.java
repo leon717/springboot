@@ -7,17 +7,23 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ExchangeQueueConfig {
 
-	public static final String MESSAGE = "topic.message";
-	public static final String MESSAGES = "topic.messages";
-	
-	@Bean
-	public Queue messageQueue() {
-		return new Queue(MESSAGE);
-	}
+    public static final String MESSAGE = "topic.message";
+    public static final String MESSAGES = "topic.messages";
+    public static final String DELAY_QUEUE = "delay.queue";
 
-	@Bean
-	public Queue messagesQueue() {
-		return new Queue(MESSAGES);
-	}
-	
+    @Bean
+    public Queue messageQueue() {
+        return new Queue(MESSAGE);
+    }
+
+    @Bean
+    public Queue messagesQueue() {
+        return new Queue(MESSAGES);
+    }
+
+    @Bean
+    public Queue delayQueue() {
+        return new Queue(DELAY_QUEUE);
+    }
+
 }
