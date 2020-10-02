@@ -14,11 +14,11 @@ public class TopicSender {
 	private AmqpTemplate rabbitTemplate;
 
 	public void sendMessage(String context) {
-		rabbitTemplate.convertAndSend(ExchangeConfig.TOPIC, ExchangeQueueConfig.MESSAGE, context);
+		rabbitTemplate.convertAndSend(ExchangeConfig.TOPIC_EXCHANGE, ExchangeQueueConfig.MESSAGE, context);
 	}
 
 	public void sendMessages(String context) {
-		rabbitTemplate.convertAndSend(ExchangeConfig.TOPIC, ExchangeQueueConfig.MESSAGES, context);
+		rabbitTemplate.convertAndSend(ExchangeConfig.TOPIC_EXCHANGE, ExchangeQueueConfig.MESSAGES, context);
 	}
 	
 }

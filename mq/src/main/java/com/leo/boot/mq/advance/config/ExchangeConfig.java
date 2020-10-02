@@ -15,28 +15,28 @@ import static com.leo.boot.mq.advance.config.ExchangeQueueConfig.DELAY_QUEUE;
 @Configuration
 public class ExchangeConfig {
 
-    public static final String TOPIC = "topic.exchange";
+    public static final String TOPIC_EXCHANGE = "topic.exchange";
 
-    public static final String FANOUT = "fanout.exchange";
+    public static final String FANOUT_EXCHANGE = "fanout.exchange";
 
-    public static final String DELAY = "delay.exchange";
+    public static final String DELAY_EXCHANGE = "delay.exchange";
 
     // exchange(fanout、direct、topic等)
     @Bean
     public TopicExchange topicExchange() {
-        return new TopicExchange(TOPIC);
+        return new TopicExchange(TOPIC_EXCHANGE);
     }
 
     @Bean
     public FanoutExchange fanoutExchange() {
-        return new FanoutExchange(FANOUT);
+        return new FanoutExchange(FANOUT_EXCHANGE);
     }
 
     @Bean
     public CustomExchange delayExchange() {
         Map<String, Object> args = new HashMap<String, Object>();
         args.put("x-delayed-type", "topic");
-        return new CustomExchange(DELAY, "x-delayed-message", true, false, args);
+        return new CustomExchange(DELAY_EXCHANGE, "x-delayed-message", true, false, args);
     }
 
     // messageQueue绑定只接受topic.message发送消息

@@ -13,7 +13,7 @@ public class FanoutSender {
 	private AmqpTemplate rabbitTemplate;
 
 	public void send(String context) {
-		rabbitTemplate.convertAndSend(ExchangeConfig.FANOUT, "", context);
+		rabbitTemplate.convertAndSend(ExchangeConfig.FANOUT_EXCHANGE, "", context);
 	}
 	
 }
