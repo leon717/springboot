@@ -2,10 +2,9 @@ package com.leo.boot.web;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 
-import com.spring4all.swagger.EnableSwagger2Doc;
-
-@EnableSwagger2Doc
+@EnableOpenApi
 @SpringBootApplication
 public class WebApplication {
 
