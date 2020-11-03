@@ -3,3 +3,16 @@ spring:
     image:
       width: 50
       height: 10
+
+logging:
+  pattern:
+    file: "%d [%t] %-5p [%F:%L]: %m%n"
+    console: "%d [%t] %-5p [%F:%L]: %m%n"
+  level:
+    root: info
+    com.leo.boot: debug
+    org.springframework.web: debug
+  file:
+    name: /logs/web.log
+    max-history: 7
+    max-size: 1024MB
