@@ -1,12 +1,6 @@
 package com.leo.boot.web.vo;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -14,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.springframework.data.domain.Page;
 
 @ApiModel("结果集")
 @Accessors(chain = true)
@@ -30,7 +25,7 @@ public class ResultVO<T> {
 
     @ApiModelProperty("数据")
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private List<T> data;
+    private T data;
 
     @ApiModelProperty("分页")
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -41,16 +36,8 @@ public class ResultVO<T> {
         this.msg = msg;
     }
 
-    public ResultVO<T> addData(T data) {
-        if (this.data == null) {
-            this.data = new ArrayList<T>();
-        }
-        this.data.add(data);
-        return this;
-    }
-
-    public ResultVO<T> setPage(Page<T> page) {
-        this.data = page.getContent();
+    public ResultVO<T> setPage(Page<?> page) {
+        this.data = (T) page.getContent();
         this.meta = new Meta(page.getNumber(), page.getSize(), page.getTotalElements());
         return this;
     }

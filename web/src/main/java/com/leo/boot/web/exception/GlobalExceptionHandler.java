@@ -28,27 +28,27 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
-        HttpStatus status, WebRequest request) {
+                                                             HttpStatus status, WebRequest request) {
         log.error("Invalid request of : {}", request.toString(), ex);
-        return new ResponseEntity<>(new ResultVO<>("400", "Bad Request").addData(ex.getMessage()), HttpStatus.OK);
+        return new ResponseEntity<>(new ResultVO<>("400", ex.getMessage()), HttpStatus.OK);
     }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-        HttpHeaders headers, HttpStatus status, WebRequest request) {
+                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
         log.error("Invalid request of : {}", request.toString(), ex);
-        List<Object> result = ex.getBindingResult().getAllErrors().stream().map(ObjectError::getDefaultMessage)
-            .collect(Collectors.toList());
-        return new ResponseEntity<>(new ResultVO<>("400", "Bad Request").setData(result), HttpStatus.OK);
+        String error = ex.getBindingResult().getAllErrors().stream().map(ObjectError::getDefaultMessage)
+                .collect(Collectors.joining("|"));
+        return new ResponseEntity<>(new ResultVO<>("400", error), HttpStatus.OK);
     }
 
     @Override
     protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status,
-        WebRequest request) {
+                                                         WebRequest request) {
         log.error("Invalid request of : {}", request.toString(), ex);
-        List<Object> result = ex.getBindingResult().getAllErrors().stream().map(ObjectError::getDefaultMessage)
-            .collect(Collectors.toList());
-        return new ResponseEntity<>(new ResultVO<>("400", "Bad Request").setData(result), HttpStatus.OK);
+        String error = ex.getBindingResult().getAllErrors().stream().map(ObjectError::getDefaultMessage)
+                .collect(Collectors.joining("|"));
+        return new ResponseEntity<>(new ResultVO<>("400", error), HttpStatus.OK);
     }
 
     @ExceptionHandler(BusinessException.class)
@@ -60,7 +60,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResultVO<?> handleException(Exception e) {
         log.error("Exception:", e);
-        return new ResultVO<>("500", "Internal Server Error");
+        return new ResultVO<>("500", e.getMessage());
     }
 
 }

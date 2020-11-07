@@ -1,60 +1,47 @@
 package com.leo.boot.web.controller;
 
-import java.util.Arrays;
-import java.util.List;
-
-import javax.validation.Valid;
-
+import com.leo.boot.web.vo.ParamVO;
+import com.leo.boot.web.vo.ResultVO;
+import io.swagger.annotations.*;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.leo.boot.web.vo.ParamVO;
-import com.leo.boot.web.vo.ResultVO;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.List;
 
 @Api(tags = "Restful测试")
 @RestController
-@RequestMapping(value = "/rest", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/rest", produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestfulController {
 
     @ApiOperation("查询")
     @GetMapping("/info/{param}")
-    public ResultVO<?> get(@ApiParam(value = "path参数") @PathVariable String param,
-        @ApiParam(value = "url参数") @Valid ParamVO paramVO) {
-        return ResultVO.success().addData(param).addData(paramVO);
+    public ResultVO<ParamVO> get(@ApiParam(value = "path参数") @PathVariable String param,
+                                 @ApiParam(value = "url参数") @Valid ParamVO paramVO) {
+        return ResultVO.<ParamVO>success().setData(paramVO);
     }
 
     @ApiOperation("设置")
     @PostMapping("/info")
-    public ResultVO<?> post(@ApiParam(value = "url参数") @RequestParam String param,
-        @ApiParam(value = "body参数") @Valid @RequestBody ParamVO paramVO) {
-        return ResultVO.success().addData(param).addData(paramVO);
+    public ResultVO<ParamVO> post(@ApiParam(value = "url参数") @RequestParam String param,
+                                  @ApiParam(value = "body参数") @Valid @RequestBody ParamVO paramVO) {
+        return ResultVO.<ParamVO>success().setData(paramVO);
     }
 
     @ApiOperation("分页")
     @GetMapping("/infos")
     @ApiImplicitParams({@ApiImplicitParam(name = "page", type = "int", value = "当前页数", paramType = "query"),
-        @ApiImplicitParam(name = "size", type = "int", value = "每页记录数", paramType = "query"),
-        @ApiImplicitParam(name = "sort", value = "排序相关信息", paramType = "query", allowMultiple = true)})
-    public ResultVO<String> page(@ApiParam(value = "参数") @RequestParam String param,
-        @PageableDefault(value = 20, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
+            @ApiImplicitParam(name = "size", type = "int", value = "每页记录数", paramType = "query"),
+            @ApiImplicitParam(name = "sort", value = "排序相关信息", paramType = "query", allowMultiple = true)})
+    public ResultVO<List<String>> page(@ApiParam(value = "参数") @RequestParam String param,
+                                       @PageableDefault(value = 20, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
         List<String> content = Arrays.asList("a", "b", "c");
-        return ResultVO.<String>success().setPage(new PageImpl<>(content, pageable, 100));
+        return ResultVO.<List<String>>success().setPage(new PageImpl<>(content, pageable, 100));
     }
 
 }
