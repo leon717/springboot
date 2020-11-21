@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: @project.artifactId@
+  boot:
+    admin:
+      client:
+        url: http://localhost:${server.port}
+
+server:
+  port: 8080
+
+info:
+  name: @project.artifactId@
+  version: @project.version@
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

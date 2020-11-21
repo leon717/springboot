@@ -58,6 +58,7 @@
 		<module>mail</module>
 		<module>properties</module>
 		<module>webflux</module>
+		<module>admin</module>
 	</modules>
 
 	<build>
