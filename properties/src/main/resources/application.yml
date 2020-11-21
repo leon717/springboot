@@ -21,3 +21,9 @@ prop:
   prop:
     name: name
     value: value
+  prop1:
+    name: name1
+    value: value1
+  prop2:
+    name: name2
+    value: value2

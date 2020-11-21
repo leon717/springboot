@@ -24,6 +24,9 @@ public class PropConfigTest {
     @Autowired
     private PropConfig propConfig;
 
+    @Autowired
+    private Map<String, Prop> propMap;
+
     @Test
     public void testGetSingle() {
         assertEquals("single", propConfig.getSingle());
@@ -31,7 +34,7 @@ public class PropConfigTest {
 
     @Test
     public void testGetArray() {
-        assertArrayEquals(new String[] {"1", "2", "3"}, propConfig.getArray());
+        assertArrayEquals(new String[]{"1", "2", "3"}, propConfig.getArray());
     }
 
     @Test
@@ -62,7 +65,7 @@ public class PropConfigTest {
     @Test
     public void testGetListMap() {
         Map<String, List<String>> map = new HashMap<>();
-        map.put("1", Arrays.asList("1","2","3"));
+        map.put("1", Arrays.asList("1", "2", "3"));
         assertEquals(map, propConfig.getListMap());
     }
 
@@ -73,5 +76,14 @@ public class PropConfigTest {
         prop.setValue("value");
         assertEquals(prop, propConfig.getProp());
     }
-    
+
+    @Test
+    public void testPropFactory() {
+        assertEquals(2, propMap.size());
+        assertEquals("name1", propMap.get("prop1").getName());
+        assertEquals("value1", propMap.get("prop1").getValue());
+        assertEquals("name2", propMap.get("prop2").getName());
+        assertEquals("value2", propMap.get("prop2").getValue());
+    }
+
 }
