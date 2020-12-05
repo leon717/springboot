@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
@@ -39,12 +40,16 @@ public class BaseUserRepositoryTest {
         assertEquals(1, user.getVersion().intValue());
     }
 
-    @Test
+    @Test(expected = ObjectOptimisticLockingFailureException.class)
     public void testConflict() {
         User user = userRepository.findByName("张三").get(0);
         assertEquals(0, user.getVersion().intValue());
-        user = userRepository.save(user);
-        assertEquals(0, user.getVersion().intValue());
+
+        user.setName("李四");
+        userRepository.save(user);
+
+        user.setName("王五");
+        userRepository.save(user);
     }
 
     @Test
