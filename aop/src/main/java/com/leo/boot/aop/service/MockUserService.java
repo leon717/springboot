@@ -11,7 +11,6 @@ public class MockUserService {
     @Lock(id = "#user.id")
     @SneakyThrows
     public boolean update(MockUser user) {
-        Thread.sleep(1000); // mock concurrency
         return true;
     }
     
@@ -19,5 +18,13 @@ public class MockUserService {
     @SneakyThrows
     public boolean exception(MockUser user) {
         throw new Exception();
+    }
+
+    public MockUser intercept(MockUser user) {
+        return user;
+    }
+
+    public MockUser intercept() {
+        return null;
     }
 }
