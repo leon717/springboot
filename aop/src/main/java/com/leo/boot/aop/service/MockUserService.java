@@ -1,25 +1,23 @@
-package com.leo.boot.aop.annotation.service;
-
-import org.springframework.stereotype.Service;
+package com.leo.boot.aop.service;
 
 import com.leo.boot.aop.annotation.Lock;
-import com.leo.boot.aop.annotation.domain.User;
-
+import com.leo.boot.aop.domain.MockUser;
 import lombok.SneakyThrows;
+import org.springframework.stereotype.Service;
 
 @Service
 public class MockUserService {
 
     @Lock(id = "#user.id")
     @SneakyThrows
-    public boolean update(User user) {
+    public boolean update(MockUser user) {
         Thread.sleep(1000); // mock concurrency
         return true;
     }
     
     @Lock(id = "#user.id")
     @SneakyThrows
-    public boolean exception(User user) {
+    public boolean exception(MockUser user) {
         throw new Exception();
     }
 }

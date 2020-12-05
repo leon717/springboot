@@ -1,4 +1,4 @@
-package com.leo.boot.aop.annotation.service;
+package com.leo.boot.aop.service;
 
 import org.springframework.stereotype.Service;
 

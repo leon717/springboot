@@ -9,7 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.leo.boot.aop.annotation.Auth.RoleType;
-import com.leo.boot.aop.annotation.service.MockBusinessService;
+import com.leo.boot.aop.service.MockBusinessService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
