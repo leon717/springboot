@@ -46,3 +46,20 @@ spring:
   datasource:
     url: jdbc:h2:mem:test
     driver-class-name: org.h2.Driver
+---
+spring:
+  profiles: oracle
+  jpa:
+    database: ORACLE
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        temp.use_jdbc_metadata_defaults: false
+        format_sql: true
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521:orcl
+    username: learn
+    password: learn
+    driver-class-name: oracle.jdbc.OracleDriver
