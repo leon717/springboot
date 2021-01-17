@@ -2,6 +2,7 @@ package com.leo.boot.jpa.repo;
 
 import java.util.List;
 
+import com.leo.boot.jpa.domain.UserVO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
@@ -40,6 +41,9 @@ public interface UserRepository extends JpaRepository<User, String>, JpaSpecific
     @Modifying
     @Query(value = "update t_user set nick = :nick where name = :name", nativeQuery = true)
     void modifyNickByNameByNative(@Param("nick") String nick, @Param("name") String name);
+
+    @Query(value = "select * from t_user where name = :name", nativeQuery = true)
+    List<UserVO> findByNameByProjection(@Param("name") String name);
     /******************** native sql end ********************/
 
 }

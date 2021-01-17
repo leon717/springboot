@@ -21,6 +21,7 @@ import lombok.experimental.Accessors;
 public class User extends BaseEntity<String> {
     private String name;
     private String nick;
+    private Double account;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
