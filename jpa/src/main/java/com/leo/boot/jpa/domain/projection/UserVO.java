@@ -1,4 +1,4 @@
-package com.leo.boot.jpa.domain;
+package com.leo.boot.jpa.domain.projection;
 
 import com.leo.boot.jpa.enumeration.Gender;
 import lombok.Getter;
@@ -23,4 +23,5 @@ public class UserVO {
     private Gender gender;
     private String temp;
     private Integer version;
+    private Date time;
 }

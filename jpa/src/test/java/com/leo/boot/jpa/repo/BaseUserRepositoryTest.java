@@ -1,16 +1,20 @@
 package com.leo.boot.jpa.repo;
 
 import com.leo.boot.jpa.domain.User;
-import com.leo.boot.jpa.domain.UserVO;
+import com.leo.boot.jpa.domain.projection.UserProjection;
+import com.leo.boot.jpa.domain.projection.UserVO;
 import com.leo.boot.jpa.enumeration.Gender;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,7 +27,7 @@ public class BaseUserRepositoryTest {
 
     @Before
     public void testSave() {
-        User user = new User().setName("张三").setNick("小张").setGender(Gender.MALE).setAccount(100.00).setTemp("temp");
+        User user = new User().setName("张三").setNick("小张").setGender(Gender.MALE).setAccount(100.00).setTime(new Date()).setTemp("temp");
         userRepository.save(user);
     }
 
@@ -98,8 +102,23 @@ public class BaseUserRepositoryTest {
     }
 
     @Test
+    public void findByNameByVO() {
+        UserVO user = userRepository.findByNameByVO("张三").get(0);
+        assertEquals("张三", user.getName());
+        assertEquals(Gender.MALE, user.getGender());
+        assertEquals(100.00, user.getAccount(), 0.01);
+    }
+
+    @Test
     public void findByNameByProjection() {
-        UserVO user = userRepository.findByNameByProjection("张三").get(0);
+        UserProjection userProjection = userRepository.findByNameByProjection("张三").get(0);
+        assertEquals("张三", userProjection.getName());
+        assertEquals(Gender.MALE, userProjection.getGender());
+        assertEquals(100.00, userProjection.getAccount(), 0.01);
+
+        User user = new User();
+        BeanUtils.copyProperties(userProjection, user);
+
         assertEquals("张三", user.getName());
         assertEquals(Gender.MALE, user.getGender());
         assertEquals(100.00, user.getAccount(), 0.01);

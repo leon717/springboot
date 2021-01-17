@@ -13,6 +13,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
+import java.util.Date;
+
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
 @Data
@@ -32,4 +34,5 @@ public class User extends BaseEntity<String> {
     @Version
     private Integer version;
 
+    private Date time;
 }

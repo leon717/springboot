@@ -2,7 +2,7 @@ package com.leo.boot.jpa.config;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Converter;
-import com.leo.boot.jpa.domain.UserVO;
+import com.leo.boot.jpa.domain.projection.UserVO;
 import org.springframework.cglib.beans.BeanMap;
 import org.springframework.cglib.core.ReflectUtils;
 import org.springframework.context.annotation.Bean;
