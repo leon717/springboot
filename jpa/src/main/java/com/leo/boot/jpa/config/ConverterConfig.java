@@ -46,8 +46,11 @@ public class ConverterConfig {
 
                 ((Map<String, Object>) source).forEach((key, value) -> {
                     String propertyName = caseConverter.convert(key);
-                    Class propertyType = beanMap.getPropertyType(propertyName);
+                    if (!beanMap.containsKey(propertyName)) {
+                        return;
+                    }
 
+                    Class propertyType = beanMap.getPropertyType(propertyName);
                     if (Enum.class.isAssignableFrom(propertyType) && !StringUtils.isEmpty(value.toString())) {
                         beanMap.put(propertyName, Enum.valueOf(propertyType, value.toString()));
                     } else {
