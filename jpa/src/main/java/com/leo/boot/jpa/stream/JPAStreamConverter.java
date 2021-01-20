@@ -1,18 +1,17 @@
 package com.leo.boot.jpa.stream;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.hibernate.query.criteria.internal.expression.LiteralExpression;
 import org.hibernate.query.criteria.internal.path.SingularAttributePath;
 import org.hibernate.query.criteria.internal.predicate.ComparisonPredicate;
 import org.hibernate.query.criteria.internal.predicate.ComparisonPredicate.ComparisonOperator;
 import org.hibernate.query.criteria.internal.predicate.CompoundPredicate;
 import org.hibernate.query.criteria.internal.predicate.InPredicate;
+import org.springframework.cglib.beans.BeanMap;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 
 import javax.persistence.criteria.Predicate.BooleanOperator;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
@@ -122,12 +121,8 @@ public class JPAStreamConverter {
         return false;
     }
 
-    private static Object getProperty(final Object bean, final String name) {
-        try {
-            return PropertyUtils.getProperty(bean, name);
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new RuntimeException(String.format("Can't get property {} form {}.", name, bean));
-        }
+    private static Object getProperty(final Object bean, String name) {
+        return BeanMap.create(bean).get(name);
     }
 
 }
