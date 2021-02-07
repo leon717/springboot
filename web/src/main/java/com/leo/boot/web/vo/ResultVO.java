@@ -1,20 +1,19 @@
 package com.leo.boot.web.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.data.domain.Page;
 
+import java.util.Collection;
+
 @ApiModel("结果集")
+@JsonInclude(Include.NON_NULL)
 @Accessors(chain = true)
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 public class ResultVO<T> {
 
     @ApiModelProperty("代码")
@@ -24,11 +23,9 @@ public class ResultVO<T> {
     private String msg;
 
     @ApiModelProperty("数据")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
     @ApiModelProperty("分页")
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Meta meta;
 
     public ResultVO(String code, String msg) {
@@ -38,7 +35,15 @@ public class ResultVO<T> {
 
     public ResultVO<T> setPage(Page<?> page) {
         this.data = (T) page.getContent();
-        this.meta = new Meta(page.getNumber(), page.getSize(), page.getTotalElements());
+        this.meta = new Meta().setPage(page.getNumber()).setSize(page.getSize()).setTotal(page.getTotalElements());
+        return this;
+    }
+
+    public ResultVO<T> setData(T data) {
+        this.data = data;
+        if (Collection.class.isAssignableFrom(data.getClass())) {
+            this.meta = new Meta().setTotal(((Collection) data).size());
+        }
         return this;
     }
 
@@ -50,8 +55,8 @@ public class ResultVO<T> {
         return new ResultVO<>("500", "Internal Server Error");
     }
 
-    @AllArgsConstructor
-    @Getter
+    @Data
+    @Accessors(chain = true)
     private class Meta {
         private int page;
         private int size;
