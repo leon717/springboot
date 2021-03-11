@@ -1,0 +1,3 @@
+logging:
+  pattern:
+    console: "%d [%t] %-5p [%X{key}] [%F:%L]: %m%n"
