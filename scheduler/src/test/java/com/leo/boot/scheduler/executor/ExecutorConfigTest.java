@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -22,10 +23,14 @@ public class ExecutorConfigTest {
 
     private static final Logger logger = LoggerFactory.getLogger(ExecutorConfigTest.class);
 
+    String key = "key";
+    String value = "value";
+
+    @Autowired
+    private ThreadPoolTaskExecutor taskExecutor;
+
     @Test
     public void test() throws ExecutionException, InterruptedException {
-        String key = "key";
-        String value = "value";
         MDC.put(key, value);
 
         Executors.newSingleThreadExecutor().submit(() -> {
@@ -41,6 +46,16 @@ public class ExecutorConfigTest {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
         taskExecutor.setTaskDecorator(MDCUtils::decorate);
         taskExecutor.initialize();
+        taskExecutor.submit(() -> {
+            logger.info("");
+            Assert.assertEquals(value, MDC.get(key));
+        }).get();
+    }
+
+    @Test
+    public void test_decorate() throws ExecutionException, InterruptedException {
+        MDC.put(key, value);
+
         taskExecutor.submit(() -> {
             logger.info("");
             Assert.assertEquals(value, MDC.get(key));

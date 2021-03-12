@@ -1,18 +1,18 @@
 package com.leo.boot.scheduler.executor;
 
 import com.leo.boot.scheduler.util.MDCUtils;
+import com.leo.boot.scheduler.util.TimeStatUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 @Configuration
 public class ExecutorConfig {
 
     @Bean
-    public Executor taskExecutor() {
+    public ThreadPoolTaskExecutor taskExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(1);
         executor.setMaxPoolSize(Integer.MAX_VALUE);
@@ -20,9 +20,16 @@ public class ExecutorConfig {
         executor.setThreadNamePrefix("taskExecutor-");
         executor.setKeepAliveSeconds(60);
         executor.setAllowCoreThreadTimeOut(false);
-        executor.setTaskDecorator(MDCUtils::decorate);
+        executor.setTaskDecorator(taskDecorators());
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         executor.initialize();
         return executor;
+    }
+
+    @Bean
+    public TaskDecorators taskDecorators() {
+        return new TaskDecorators()
+                .add(TimeStatUtils::decorate)
+                .add(MDCUtils::decorate);
     }
 }
