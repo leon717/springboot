@@ -6,15 +6,20 @@ import org.hibernate.query.criteria.internal.predicate.ComparisonPredicate;
 import org.hibernate.query.criteria.internal.predicate.ComparisonPredicate.ComparisonOperator;
 import org.hibernate.query.criteria.internal.predicate.CompoundPredicate;
 import org.hibernate.query.criteria.internal.predicate.InPredicate;
+import org.springframework.beans.BeanUtils;
 import org.springframework.cglib.beans.BeanMap;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.util.ReflectionUtils;
 
+import javax.persistence.criteria.Expression;
 import javax.persistence.criteria.Predicate.BooleanOperator;
+import java.lang.reflect.Method;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -70,14 +75,15 @@ public class JPAStreamConverter {
         return comparisonPredicate.isNegated() ? predicate.negate() : predicate;
     }
 
-    public static <T> Predicate<T> convert(InPredicate inPredicate) {
-        SingularAttributePath expression = (SingularAttributePath) inPredicate.getExpression();
-        List<LiteralExpression> values = inPredicate.getValues();
+    public static <T> Predicate<T> convert(InPredicate<T> inPredicate, Class<T> tClass) {
+        SingularAttributePath<T> expression = (SingularAttributePath<T>) inPredicate.getExpression();
+        List<Expression<? extends T>> values = inPredicate.getValues();
 
         String fieldName = expression.getAttribute().getName();
-        List<Object> list = values.stream().map(LiteralExpression::getLiteral).collect(Collectors.toList());
+        Method readMethod = BeanUtils.getPropertyDescriptor(tClass, fieldName).getReadMethod();
+        Set<Object> set = values.stream().map(LiteralExpression.class::cast).map(LiteralExpression::getLiteral).collect(Collectors.toSet());
 
-        Predicate<T> predicate = f -> list.contains(getProperty(f, fieldName));
+        Predicate<T> predicate = f -> set.contains(ReflectionUtils.invokeMethod(readMethod, f));
 
         return inPredicate.isNegated() ? predicate.negate() : predicate;
     }
